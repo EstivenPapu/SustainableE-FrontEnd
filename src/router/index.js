@@ -1,23 +1,57 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import InicioDeSesion from '../pages/InicioDeSesion.vue';
+import Registrarse from '../pages/Registrarse.vue';
+import Dashboard from '../pages/Dashboard.vue';
+import BuscarPais from '@/pages/BuscarPais.vue';
+import Estadisticas from '@/pages/Estadisticas.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: HomeView,
+      path: '/', // Ruta principal (Login)
+      name: 'login',
+      component: InicioDeSesion,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/register', // Ruta de registro
+      name: 'register',
+      component: Registrarse,
+    },
+    {
+      path: '/dashboard', // Ruta del Dashboard
+      name: 'dashboard',
+      component: Dashboard,
+      beforeEnter: (to, from, next) => {
+        // Verificar si hay un usuario autenticado
+        const user = localStorage.getItem('user');
+        if (!user) {
+          next('/'); // Redirige al login si no está autenticado
+        } else {
+          next(); // Si está autenticado, permite el acceso
+        }
+      },
+      children: [
+        {
+          path: 'search', // Ruta para buscar países
+          name: 'search',
+          component: BuscarPais,
+        },
+        {
+          path: 'stats', // Ruta para estadísticas
+          name: 'stats',
+          component: Estadisticas,
+        },
+      ],
+    },
+    {
+      path: '/:pathMatch(.*)*', // Ruta para manejar páginas no encontradas
+      name: 'not-found',
+      component: {
+        template: '<h2>Página no encontrada</h2>',
+      },
     },
   ],
-})
+});
 
-export default router
+export default router;
