@@ -42,4 +42,17 @@ export async function registerUser(fullname, email, username, password) {
       console.error('Error en el registro:', error);
       throw error;
     }
-} 
+}
+
+export async function getUserById(id) {
+  try {
+    const response = await fetch(`${BASE_URL}/${id}`);
+    if (!response.ok) {
+      throw new Error('No se pudo obtener la información del usuario');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error en getUserById:', error);
+    throw error;
+  }
+}

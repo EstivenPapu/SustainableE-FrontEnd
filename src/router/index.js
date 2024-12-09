@@ -4,6 +4,9 @@ import Registrarse from '../pages/Registrarse.vue';
 import Dashboard from '../pages/Dashboard.vue';
 import BuscarPais from '@/pages/BuscarPais.vue';
 import Estadisticas from '@/pages/Estadisticas.vue';
+import TiposDeEnergia from '@/components/TiposDeEnergia.vue';
+import Inicio from '@/components/Inicio.vue';
+import EnergiaInfo from '@/components/EnergiaInfo.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +44,21 @@ const router = createRouter({
           path: 'stats', // Ruta para estadísticas
           name: 'stats',
           component: Estadisticas,
+        },
+        {
+          path: 'energia-tipos', // Ruta para estadísticas
+          name: 'energia-tipos',
+          component: TiposDeEnergia,
+        },
+        {
+          path: 'inicio', // Ruta para estadísticas
+          name: 'inicio',
+          component: Inicio,
+        },
+        {
+          path: 'energia-info', // Ruta para estadísticas
+          name: 'energia-info',
+          component: EnergiaInfo,
         },
       ],
     },

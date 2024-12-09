@@ -7,8 +7,8 @@ export async function getAllCountries() {
     if (!response.ok) {
       throw new Error('No se pudo obtener la lista de países');
     }
-    console.log(response.json())
-    return await response.json();
+    const data = await response.json();
+    return data
   } catch (error) {
     console.error('Error en getAllCountries:', error);
     throw error;

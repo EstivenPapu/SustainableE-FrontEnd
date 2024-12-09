@@ -51,7 +51,7 @@ const handleLogin = async () => {
 
       // Guardar el ID del usuario en localStorage
       localStorage.setItem('user', JSON.stringify({ id: response.Id }));
-
+      
       // Redirigir al Dashboard después del login exitoso
       router.push('/dashboard');
     } else {
@@ -68,5 +68,15 @@ const handleLogin = async () => {
 .error {
   color: red;
   margin-top: 10px;
+}
+
+.login-container{
+  display:flex;
+  flex-direction: column;
+}
+
+form{
+  align-self: center;
+  justify-self: center;
 }
 </style>

@@ -1,27 +1,28 @@
 <template>
-    <div>
-      <!-- Incluimos el Navbar -->
-      <NavBar></NavBar>
+  <div>
+    <!-- Incluimos el Navbar -->
+    <NavBar></NavBar>
+
+    
+  </div>
+  <router-view></router-view>
+</template>
   
-      <!-- Área principal del Dashboard -->
-      <div class="dashboard-content">
-        <h2>Bienvenido al Dashboard</h2>
-        <p>Selecciona una opción en el menú para comenzar a explorar los datos.</p>
-      </div>
-    </div>
-    <router-view></router-view>
-  </template>
-  
-  <script setup>
+<script setup>
   import NavBar from '../components/NavBar.vue';
+  const userId = JSON.parse(localStorage.getItem('user'))?.id;
+
+  if (!userId) {
+    console.error('No se encontró un ID de usuario en localStorage. Redirigiendo al login...');
+    router.push('/');
+  }
   
+</script>
   
-  </script>
-  
-  <style scoped>
+<style scoped>
   .dashboard-content {
     margin: 20px;
     text-align: center;
   }
-  </style>
+</style>
   
