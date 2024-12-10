@@ -2,19 +2,24 @@
   <div class="user-avatar-container">
     <!-- Avatar del usuario -->
     <div class="avatar" @click="toggleDropdown">
-      {{ username.charAt(0).toUpperCase() }} <!-- Muestra la inicial del nombre de usuario -->
+      {{ username.charAt(0).toUpperCase() }}
     </div>
-     <!-- Menú desplegable usando una lista -->
-     <ul v-if="showDropdown" class="dropdown-menu">
-      <!-- Mostrar la información del usuario solo cuando esté disponible -->
-      <li v-if="user && user.username"><strong>Nombre de usuario:</strong> {{ user.username }}</li>
-      <li v-if="user && user.nombre"><strong>Nombre completo:</strong> {{ user.nombre }}</li>
-      <li v-if="user && user.email"><strong>Correo electrónico:</strong> {{ user.email }}</li>
-      
-      <!-- Mensaje si los datos no están disponibles aún -->
-      <li v-else>Cargando información del usuario...</li>
 
-      <!-- Botón para cerrar sesión -->
+    <!-- Menú desplegable -->
+    <ul v-if="showDropdown" class="dropdown-menu">
+      <!-- Información del usuario -->
+      <li v-if="user && user.username">
+        <strong>Usuario:</strong> {{ user.username }}
+      </li>
+      <li v-if="user && user.nombre">
+        <strong>Nombre:</strong> {{ user.nombre }}
+      </li>
+      <li v-if="user && user.email">
+        <strong>Email:</strong> {{ user.email }}
+      </li>
+      <li v-else class="loading">Cargando información...</li>
+
+      <!-- Botón de cerrar sesión -->
       <li>
         <button @click="logout" class="logout-button">Cerrar sesión</button>
       </li>
@@ -23,17 +28,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { getUserById } from '../services/userService'
+import { ref, onMounted } from "vue";
+import { getUserById } from "../services/userService";
 
 // Estado para el menú desplegable y la información del usuario
 const showDropdown = ref(false);
-const user = ref(null); // Inicializamos como null para la carga reactiva
-const username = ref('');
+const user = ref(null);
+const username = ref("");
 
-// Obtener solo el nombre de usuario para mostrar en el avatar
-const storedUser = JSON.parse(localStorage.getItem('user'));
-username.value = storedUser?.username || 'U'; // Si no hay usuario, se usa 'U' por defecto
+// Obtener la información del usuario almacenada
+const storedUser = JSON.parse(localStorage.getItem("user"));
+username.value = storedUser?.username || "U"; // Inicial por defecto
 
 // Función para alternar el menú desplegable
 const toggleDropdown = () => {
@@ -42,17 +47,17 @@ const toggleDropdown = () => {
 
 // Función para cerrar sesión
 const logout = () => {
-  localStorage.removeItem('user');
-  window.location.href = '/'; // Redirige al inicio de sesión
+  localStorage.removeItem("user");
+  window.location.href = "/";
 };
 
-// Obtener la información completa del usuario por su ID
+// Obtener la información completa del usuario
 onMounted(async () => {
   if (storedUser?.id) {
     try {
       const response = await getUserById(storedUser.id);
       if (response) {
-        user.value = response; // Asignamos la información al objeto user
+        user.value = response;
       } else {
         console.error("No se pudo obtener la información del usuario.");
       }
@@ -64,56 +69,93 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* Contenedor principal */
 .user-avatar-container {
   position: relative;
   display: inline-block;
 }
 
+/* Estilo del avatar */
 .avatar {
-  width: 40px;
-  height: 40px;
-  background-color: #4caf50;
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-secondary);
   color: white;
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: bold;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Menú desplegable */
 .dropdown-menu {
-  color: black;
   position: absolute;
-  top: 50px;
+  top: 60px;
+  color: black;
   right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  width: 200px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 250px;
   z-index: 1000;
-  list-style-type: none; /* Elimina los puntos de la lista */
+  list-style: none;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
+/* Elementos de la lista */
 .dropdown-menu li {
-  margin-bottom: 10px;
   font-size: 14px;
+  margin-bottom: 10px;
 }
 
+.dropdown-menu li:last-child {
+  margin-bottom: 0;
+}
+
+.loading {
+  text-align: center;
+  font-style: italic;
+  color: var(--color-accent);
+}
+
+/* Botón de cerrar sesión */
 .logout-button {
   width: 100%;
-  padding: 8px;
-  background-color: #f44336;
-  color: white;
+  padding: 10px;
+  background-color: var(--color-hover);
+  color: var(--color-white);
   border: none;
   border-radius: 5px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .logout-button:hover {
-  background-color: #d32f2f;
+  background-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

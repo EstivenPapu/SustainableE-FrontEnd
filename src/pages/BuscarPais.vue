@@ -1,107 +1,138 @@
 <template>
   <div class="search-container">
     <h2>Buscar País</h2>
-
-    <!-- Campo de búsqueda -->
+    
+    <!-- Barra de búsqueda en tiempo real -->
     <input
       v-model="searchQuery"
-      @input="handleSearch"
+      @input="filterCountries"
       type="text"
-      placeholder="Ingresa el nombre del país"
+      placeholder="Busca un país..."
       class="search-input"
     />
-
-    <!-- Mostrar error si no se encuentra el país -->
-    <p v-if="error" class="error">{{ error }}</p>
-
-    <!-- Mostrar los resultados de búsqueda -->
-    <div v-if="countryData.length > 0" class="result">
-      <div v-for="(data, index) in countryData" :key="index" class="country-card">
-        <h3>{{ data.pais }} - {{ data.year }}</h3>
-        <p><strong>Producción:</strong> {{ data.produccion }} TWh</p>
-        <p>
-          <strong>Fuente de Energía:</strong> {{ data.fuenteDeEnergia.nombre }}
-          ({{ data.fuenteDeEnergia.descripcion }})
-        </p>
-      </div>
-    </div>
+    
+    <!-- Tabla con todos los países -->
+    <table v-if="filteredCountries.length > 0" class="country-table">
+      <thead>
+        <tr>
+          <th>País</th>
+          <th>Producción</th>
+          <th>Fuente de Energía</th>
+          <th>Año</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(country, index) in filteredCountries" :key="index">
+          <td>{{ country.pais }}</td>
+          <td>{{ country.produccion }} TWh</td>
+          <td>{{ country.fuenteDeEnergia.nombre }}</td>
+          <td>{{ country.year }}</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <!-- Mensaje cuando no hay resultados -->
+    <p v-else>No se encontraron países que coincidan con la búsqueda.</p>
+    
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { getCountryByName } from '../services/energyService'; // Asegúrate de que la función esté importada correctamente
+import { ref, onMounted } from 'vue';
+import { getAllCountries } from '../services/energyService'; // Asegúrate de tener este servicio
 
-// Definir el estado
-const searchQuery = ref(''); // Valor de búsqueda del usuario
-const countryData = ref([]); // Para almacenar los datos del país
-const error = ref(null); // Para almacenar mensajes de error
+const countries = ref([]); // Para almacenar todos los países
+const filteredCountries = ref([]); // Para almacenar los países filtrados
+const searchQuery = ref(''); // Valor del input de búsqueda
 
-// Función para manejar la búsqueda
-const handleSearch = async () => {
-  if (searchQuery.value.trim()) {
-    try {
-      // Hacer la llamada a la API para obtener los datos del país
-      const response = await getCountryByName(searchQuery.value);
-
-      // Verificar que se haya encontrado el país y asignar los datos
-      if (response.length > 0) {
-        countryData.value = response; // Suponiendo que el backend devuelve una lista
-        error.value = null; // Limpiar el error si se encuentra el país
-      } else {
-        error.value = 'No se encontró el país.';
-        countryData.value = [];
-      }
-    } catch (err) {
-      // Si hay un error al hacer la solicitud
-      error.value = 'Hubo un error al realizar la búsqueda.';
-      countryData.value = [];
-      console.error('Error al buscar el país:', err);
-    }
-  } else {
-    // Si el campo de búsqueda está vacío, limpiar resultados
-    countryData.value = [];
-    error.value = null;
+// Cargar todos los países desde el backend
+onMounted(async () => {
+  try {
+    const response = await getAllCountries();
+    countries.value = response; // Suponiendo que el backend devuelve la lista completa
+    filteredCountries.value = response.sort((a, b) => a.pais.localeCompare(b.pais)); // Ordenar alfabéticamente
+  } catch (err) {
+    console.error("Error al cargar los países:", err);
   }
+});
+
+// Función para filtrar los países según el texto ingresado
+const filterCountries = () => {
+  filteredCountries.value = countries.value
+    .filter(country =>
+      country.pais.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+    .sort((a, b) => a.pais.localeCompare(b.pais)); // Volver a ordenar después de filtrar
 };
 </script>
 
 <style scoped>
 .search-container {
+  padding: 20px;
+  background-color: var(--color-background);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+h2 {
+  font-size: 2rem;
+  color: var(--color-secondary);
+  margin-bottom: 20px;
   text-align: center;
-  margin: 20px;
 }
 
 .search-input {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-right: 10px;
-}
-
-.error {
-  color: red;
-  margin-top: 10px;
-}
-
-.result {
-  margin-top: 20px;
-}
-
-.country-card {
-  margin-bottom: 15px;
+  width: 100%;
   padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  outline: none;
+  transition: 0.3s ease;
 }
 
-.country-card h3 {
-  margin: 0;
-  font-size: 20px;
+.search-input:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 5px var(--color-secondary);
 }
 
-.country-card p {
-  margin: 5px 0;
+.country-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.country-table th,
+.country-table td {
+  padding: 10px;
+  border: 1px solid var(--color-accent);
+}
+
+.country-table th {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.country-table tr:nth-child(even) {
+  background-color: var(--color-accent);
+}
+
+.country-table tr:hover {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
