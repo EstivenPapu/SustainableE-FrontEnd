@@ -45,7 +45,6 @@ const user = JSON.parse(localStorage.getItem('user')) || { username: 'Usuario' }
   font-weight: bold;
   position: relative;
   color: var(--color-white);
-  text-transform: uppercase;
   animation: titleGlow 2s infinite ease-in-out;
 }
 

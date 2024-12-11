@@ -1,6 +1,6 @@
-const API_BASE_URL = 'http://localhost:8080/produccion'; // Cambia esto si tu backend está en otra URL
+const API_BASE_URL = 'http://localhost:8080/produccion';
 
-// Función para obtener datos de todos los países
+// Funcion para obtener datos de todos los paises
 export async function getAllCountries() {
   try {
     const response = await fetch(`${API_BASE_URL}`,{method: 'GET',});
@@ -15,7 +15,7 @@ export async function getAllCountries() {
   }
 }
 
-// Función para buscar un país por nombre
+// Funcion para buscar un pais por nombre
 export async function getCountryByName(name) {
   try {
     const response = await fetch(`${API_BASE_URL}/nombre?nombre=${name}`);
@@ -29,7 +29,7 @@ export async function getCountryByName(name) {
   }
 }
 
-// Función para obtener estadísticas por tipo de fuente y año
+// Funcion para obtener estadisticas por tipo de fuente y año
 export async function getStatsBySourceAndYear(year) {
   try {
     const response = await fetch(`${API_BASE_URL}/por-fuente-y-region?year=${year}`);

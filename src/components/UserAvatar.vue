@@ -7,21 +7,17 @@
 
     <!-- Menú desplegable -->
     <ul v-if="showDropdown" class="dropdown-menu">
-      <!-- Información del usuario -->
-      <li v-if="user && user.username">
-        <strong>Usuario:</strong> {{ user.username }}
+      <!-- Saludo al usuario -->
+      <li class="greeting">
+        Hola, <strong>{{ user?.nombre || username }}</strong>
       </li>
-      <li v-if="user && user.nombre">
-        <strong>Nombre:</strong> {{ user.nombre }}
-      </li>
-      <li v-if="user && user.email">
-        <strong>Email:</strong> {{ user.email }}
-      </li>
-      <li v-else class="loading">Cargando información...</li>
 
-      <!-- Botón de cerrar sesión -->
+      <!-- Botones de acción -->
       <li>
-        <button @click="logout" class="logout-button">Cerrar sesión</button>
+        <button @click="navigateToAccount" class="action-button">Administrar cuenta</button>
+      </li>
+      <li>
+        <button @click="logout" class="action-button logout-button">Cerrar sesión</button>
       </li>
     </ul>
   </div>
@@ -29,29 +25,37 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { getUserById } from "../services/userService";
 
-// Estado para el menú desplegable y la información del usuario
+// Estado
 const showDropdown = ref(false);
 const user = ref(null);
 const username = ref("");
+const router = useRouter();
 
 // Obtener la información del usuario almacenada
 const storedUser = JSON.parse(localStorage.getItem("user"));
-username.value = storedUser?.username || "U"; // Inicial por defecto
+username.value = storedUser?.username || "U";
 
-// Función para alternar el menú desplegable
+// Alternar el menú desplegable
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
 };
 
-// Función para cerrar sesión
+// Navegar a la página de administración de cuenta
+const navigateToAccount = () => {
+  showDropdown.value = !showDropdown.value;
+  router.push("/dashboard/cuenta");
+};
+
+// Cerrar sesión
 const logout = () => {
   localStorage.removeItem("user");
   window.location.href = "/";
 };
 
-// Obtener la información completa del usuario
+// Obtener información completa del usuario
 onMounted(async () => {
   if (storedUser?.id) {
     try {
@@ -69,18 +73,16 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* Contenedor principal */
 .user-avatar-container {
   position: relative;
   display: inline-block;
 }
 
-/* Estilo del avatar */
 .avatar {
   width: 50px;
   height: 50px;
   background-color: var(--color-secondary);
-  color: white;
+  color: var(--color-white);
   font-size: 1.5rem;
   font-weight: bold;
   border-radius: 50%;
@@ -96,44 +98,41 @@ onMounted(async () => {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Menú desplegable */
 .dropdown-menu {
   position: absolute;
   top: 60px;
-  color: black;
   right: 0;
+  color: black;
   background-color: var(--color-white);
   border: 1px solid var(--color-accent);
   border-radius: 8px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   padding: 15px;
-  width: 250px;
+  width: 200px;
   z-index: 1000;
   list-style: none;
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Elementos de la lista */
 .dropdown-menu li {
-  font-size: 14px;
   margin-bottom: 10px;
+  font-size: 14px;
 }
 
 .dropdown-menu li:last-child {
   margin-bottom: 0;
 }
 
-.loading {
+.greeting {
   text-align: center;
-  font-style: italic;
-  color: var(--color-accent);
+  font-size: 1rem;
+  margin-bottom: 15px;
 }
 
-/* Botón de cerrar sesión */
-.logout-button {
+.action-button {
   width: 100%;
-  padding: 10px;
-  background-color: var(--color-hover);
+  padding: 8px;
+  background-color: var(--color-secondary);
   color: var(--color-white);
   border: none;
   border-radius: 5px;
@@ -142,12 +141,14 @@ onMounted(async () => {
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.logout-button:hover {
-  background-color: var(--color-secondary);
+.action-button:hover {
+  background-color: var(--color-white);
+  color: var(--color-secondary);
+  box-shadow: 0px 0px 5px black;
   transform: translateY(-2px);
 }
 
-/* Animaciones */
+/* Animación */
 @keyframes fadeIn {
   from {
     opacity: 0;

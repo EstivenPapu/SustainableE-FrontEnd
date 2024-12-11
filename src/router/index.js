@@ -7,6 +7,7 @@ import Estadisticas from '@/pages/Estadisticas.vue';
 import TiposDeEnergia from '@/components/TiposDeEnergia.vue';
 import Inicio from '@/components/Inicio.vue';
 import EnergiaInfo from '@/components/EnergiaInfo.vue';
+import AdministracionCuenta from '@/components/AdministracionCuenta.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,12 +18,12 @@ const router = createRouter({
       component: InicioDeSesion,
     },
     {
-      path: '/register', // Ruta de registro
+      path: '/register', 
       name: 'register',
       component: Registrarse,
     },
     {
-      path: '/dashboard', // Ruta del Dashboard
+      path: '/dashboard', 
       name: 'dashboard',
       component: Dashboard,
       beforeEnter: (to, from, next) => {
@@ -36,29 +37,34 @@ const router = createRouter({
       },
       children: [
         {
-          path: 'search', // Ruta para buscar países
+          path: 'search', 
           name: 'search',
           component: BuscarPais,
         },
         {
-          path: 'stats', // Ruta para estadísticas
+          path: 'stats', 
           name: 'stats',
           component: Estadisticas,
         },
         {
-          path: 'energia-tipos', // Ruta para estadísticas
+          path: 'energia-tipos', 
           name: 'energia-tipos',
           component: TiposDeEnergia,
         },
         {
-          path: 'inicio', // Ruta para estadísticas
+          path: 'inicio', 
           name: 'inicio',
           component: Inicio,
         },
         {
-          path: 'energia-info', // Ruta para estadísticas
+          path: 'energia-info',
           name: 'energia-info',
           component: EnergiaInfo,
+        },
+        {
+          path: 'cuenta',
+          name: 'cuenta',
+          component: AdministracionCuenta,
         },
       ],
     },

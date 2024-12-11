@@ -15,7 +15,7 @@ const chart = ref(null);
 
 onMounted(async () => {
   try {
-    const year = '2022'; // Cambia por el año deseado
+    const year = '2021'; // Cambia por el año deseado
     const consumoTotal = 100000; // Este es el consumo total para calcular el porcentaje
 
     // Obtenemos los datos de porcentaje de energía renovable desde el servicio
