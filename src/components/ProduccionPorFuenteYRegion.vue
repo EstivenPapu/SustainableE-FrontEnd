@@ -13,7 +13,7 @@
   const chart = ref(null);
   onMounted(async () => {
     try {
-      const year = '2021'; // Cambia por el año deseado
+      const year = '2021';
       const data = await getStatsBySourceAndYear(year);
   
       const labels = data.map(item => item.pais);

@@ -2,7 +2,6 @@
   <div class="energy-types-container">
     <h2>Tipos de Energía Sostenible</h2>
 
-    <!-- Energía Solar -->
     <section class="energy-item">
       <div class="energy-icon">
         <img src="../assets/images/solar.png" alt="Energía Solar" />
@@ -16,7 +15,6 @@
     </section>
     <div class="separator"></div>
 
-    <!-- Energía Eólica -->
     <section class="energy-item reverse">
       <div class="energy-icon">
         <img src="../assets/images/molino.png" alt="Energía Eólica" />
@@ -30,7 +28,6 @@
     </section>
     <div class="separator"></div>
 
-    <!-- Energía Hidráulica -->
     <section class="energy-item">
       <div class="energy-icon">
         <img src="../assets/images/energia-del-agua.png" alt="Energía Hidráulica" />
@@ -44,7 +41,6 @@
     </section>
     <div class="separator"></div>
 
-    <!-- Energía Geotérmica -->
     <section class="energy-item reverse">
       <div class="energy-icon">
         <img src="../assets/images/energia-geotermica.png" alt="Energía Geotérmica" />
@@ -58,7 +54,6 @@
     </section>
     <div class="separator"></div>
 
-    <!-- Energía Biomasa -->
     <section class="energy-item">
       <div class="energy-icon">
         <img src="../assets/images/energia-de-biomasa.png" alt="Energía Biomasa" />
@@ -74,101 +69,98 @@
 </template>
 
 <script setup>
-// Este componente es solo informativo, no necesitamos lógica
+
 </script>
 
 <style scoped>
-.energy-types-container {
-  margin: 20px;
-  padding: 20px;
-  background-color: var(--color-background);
-  border-radius: 8px;
-  animation: fadeInDown 0.8s ease-in-out; /* Añadimos la animación */
-}
-
-/* Animación de caída */
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
+  .energy-types-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: var(--color-background);
+    border-radius: 8px;
+    animation: fadeInDown 0.8s ease-in-out;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-.energy-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-  flex-wrap: wrap; /* Permite que los elementos se ajusten cuando la pantalla sea más grande */
-}
-
-.energy-content {
-  width: 40%;
-}
-
-.energy-icon {
-  width: 30%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.energy-icon img {
-  width: 80px;
-  height: auto;
-  margin: 50px;
-  max-width: 100%;
-}
-
-h2 {
-  font-size: 2rem;
-  color: var(--color-secondary);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-h3 {
-  font-size: 1.6rem;
-  color: var(--color-secondary);
-  margin-bottom: 10px;
-}
-
-p {
-  font-size: 1rem;
-  line-height: 1.6;
-  max-width: 50rem;
-  color: var(--color-text);
-}
-
-/* Línea decorativa entre secciones */
-.separator {
-  height: 2px;
-  background-color: var(--color-accent);
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-/* Media Queries para pantallas más grandes */
-@media (min-width: 768px) {
   .energy-item {
-    flex-direction: row;
-    justify-content: flex-start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap; 
   }
 
   .energy-content {
-    width: 55%;
+    width: 40%;
   }
 
   .energy-icon {
-    width: 35%;
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 
   .energy-icon img {
-    width: 100px; /* Aumentamos el tamaño de la imagen para pantallas más grandes */
+    width: 80px;
+    height: auto;
+    margin: 50px;
+    max-width: 100%;
   }
-}
+
+  h2 {
+    font-size: 2rem;
+    color: var(--color-secondary);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 1.6rem;
+    color: var(--color-secondary);
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 50rem;
+    color: var(--color-text);
+  }
+
+  .separator {
+    height: 2px;
+    background-color: var(--color-accent);
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .energy-item {
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+
+    .energy-content {
+      width: 55%;
+    }
+
+    .energy-icon {
+      width: 35%;
+    }
+
+    .energy-icon img {
+      width: 100px;
+    }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 </style>

@@ -1,8 +1,10 @@
 <template>
   <nav class="navbar">
     <div class="navbar-left">
-      <!-- Título con efecto de destello -->
-      <h1 class="navbar-title">SustainableEnergy</h1>
+      <img class="navbar-title" src="../assets/images/logo.png" alt="Logo">
+    </div>
+
+    <div class="navbar-center">
       <ul class="navbar-menu">
         <li><router-link to="/dashboard/inicio" active-class="active-link">Inicio</router-link></li>
         <li><router-link to="/dashboard/search" active-class="active-link">Buscar País</router-link></li>
@@ -12,106 +14,121 @@
     </div>
 
     <div class="navbar-right">
-      <!-- Avatar del usuario -->
-      <UserAvatar :username="user.username" />
+      <UserAvatar/>
     </div>
   </nav>
 </template>
 
 <script setup>
 import UserAvatar from './UserAvatar.vue';
-
-const user = JSON.parse(localStorage.getItem('user')) || { username: 'Usuario' };
 </script>
 
 <style scoped>
-/* Estilos generales del navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  background-color: var(--color-secondary);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  color: var(--color-white);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-/* Título del navbar */
-.navbar-title {
-  font-size: 2rem;
-  font-weight: bold;
-  position: relative;
-  color: var(--color-white);
-  animation: titleGlow 2s infinite ease-in-out;
-}
-
-/* Efecto de destello */
-@keyframes titleGlow {
-  0%, 100% {
-    text-shadow: 0 0 10px var(--color-secondary), 0 0 20px var(--color-secondary);
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
   }
-  50% {
-    text-shadow: 0 0 15px var(--color-hover), 0 0 30px var(--color-secondary);
+  
+  .navbar-left, .navbar-center, .navbar-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-}
-
-/* Menú del navbar */
-.navbar-menu {
-  list-style: none;
-  display: flex;
-  gap: 15px;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar-menu li {
-  display: inline-block;
-  position: relative;
-}
-
-/* Links del menú */
-.navbar-menu a {
-  color: var(--color-white);
-  text-decoration: none;
-  padding: 5px 10px;
-  position: relative;
-  transition: color 0.3s ease;
-}
-
-.navbar-menu a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -5px;
-  height: 3px;
-  width: 0;
-  background-color: var(--color-white);
-  transition: width 0.3s ease;
-}
-
-.navbar-menu a:hover::after,
-.navbar-menu .active-link::after {
-  width: 100%;
-}
-
-/* Estado activo del link */
-.active-link {
-  color: var(--color-hover);
-  font-weight: bold;
-}
-
-/* Animación al hacer hover */
-.navbar-menu a:hover {
-  color: var(--color-accent);
-}
-
-/* Estilo del lado derecho */
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+  
+  .navbar-left {
+    justify-content: flex-start;
+  }
+  
+  .navbar-right {
+    width: 350px;
+    animation: fadeIn 2s ease-in-out;
+    justify-content: flex-end;
+  }
+  
+  .navbar-title {
+    width: 250px;
+    margin: 20px;
+  }
+  
+  .navbar-menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 550px;
+    gap: 20px;
+    margin-bottom: 0;
+    padding: 0;
+  }
+  
+  .navbar-menu li {
+    height: 30px;
+    margin-top: 150px;
+    display: inline-block;
+  }
+  
+  .navbar-menu a {
+    color: var(--color-white);
+    text-decoration: none;
+    padding: 15px 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .user-avatar-container{
+    margin-right: 30px;
+  }
+    
+  .navbar-menu a:hover {
+    background-color: var(--color-background);
+    color: var(--color-secondary);
+    border-radius: 5px;
+    transform: scale(1.1);
+  }
+  
+  .navbar-menu .active-link {
+    font-weight: bold;
+    background-color: var(--color-background);
+    color: var(--color-secondary);
+    border-radius: 5px;
+  }
+  
+  /* Diseño adaptable */
+  @media (max-width: 955px) {
+    .navbar {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .navbar-left, .navbar-center, .navbar-right {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .navbar-menu {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 </style>

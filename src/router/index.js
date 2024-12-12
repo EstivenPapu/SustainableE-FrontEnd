@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import InicioDeSesion from '../pages/InicioDeSesion.vue';
-import Registrarse from '../pages/Registrarse.vue';
-import Dashboard from '../pages/Dashboard.vue';
-import BuscarPais from '@/pages/BuscarPais.vue';
-import Estadisticas from '@/pages/Estadisticas.vue';
+import InicioDeSesion from '../components/InicioDeSesion.vue';
+import Registrarse from '../components/Registrarse.vue';
+import Dashboard from '../components/Dashboard.vue';
+import BuscarPais from '@/components/BuscarPais.vue';
+import Estadisticas from '@/components/Estadisticas.vue';
 import TiposDeEnergia from '@/components/TiposDeEnergia.vue';
 import Inicio from '@/components/Inicio.vue';
 import EnergiaInfo from '@/components/EnergiaInfo.vue';
@@ -27,12 +27,12 @@ const router = createRouter({
       name: 'dashboard',
       component: Dashboard,
       beforeEnter: (to, from, next) => {
-        // Verificar si hay un usuario autenticado
+
         const user = localStorage.getItem('user');
         if (!user) {
-          next('/'); // Redirige al login si no está autenticado
+          next('/');
         } else {
-          next(); // Si está autenticado, permite el acceso
+          next();
         }
       },
       children: [

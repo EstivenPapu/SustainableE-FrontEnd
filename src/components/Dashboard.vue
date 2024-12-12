@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <!-- Incluimos el Navbar -->
-    <NavBar></NavBar>
 
-    
+  <div>
+    <NavBar class="navba"></NavBar>
   </div>
+
   <router-view></router-view>
+
 </template>
-  
+
 <script setup>
   import NavBar from '../components/NavBar.vue';
   const userId = JSON.parse(localStorage.getItem('user'))?.id;
@@ -16,7 +16,6 @@
     console.error('No se encontró un ID de usuario en localStorage. Redirigiendo al login...');
     router.push('/');
   }
-  
 </script>
   
 <style scoped>

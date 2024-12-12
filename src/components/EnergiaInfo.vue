@@ -167,8 +167,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
-  
-  /* Animación para la entrada */
+
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -180,4 +179,3 @@
     }
   }
 </style>
-  

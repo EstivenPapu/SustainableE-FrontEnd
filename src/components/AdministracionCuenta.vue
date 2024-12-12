@@ -44,7 +44,7 @@
   </div>
 </template>
   
-  <script setup>
+<script setup>
   import { ref, onMounted } from "vue";
   import { getUserById, updateUser, deleteUser } from "../services/userService";
   
@@ -112,9 +112,9 @@
       }
     }
   });
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   .account-management-container {
     margin: 40px auto;
     padding: 30px;
@@ -222,12 +222,13 @@
   }
   
   .save-button {
-    background-color: var(--color-accent);
+    background-color: var(--color-hover);
     color: var(--color-white);
   }
   
   .save-button:hover {
-    background-color: var(--color-hover);
+    background-color: var(--color-accent);
+    color: var(--color-white);
     transform: scale(1.05);
   }
   
@@ -253,5 +254,5 @@
       transform: translateY(0);
     }
   }
-  </style>
+</style>
   
