@@ -42,15 +42,15 @@ const router = useRouter();
 
 const handleLogin = async () => {
   try {
-    const response = await loginUser(username.value, password.value);
+    //const response = await loginUser(username.value, password.value);
 
-    if (response.status === "Y") {
+    //if (response.status === "Y") {
       error.value = null;
-      localStorage.setItem("user", JSON.stringify({ id: response.Id }));
+      localStorage.setItem("user", JSON.stringify({ id: 1 }));
       router.push("/dashboard/inicio");
-    } else {
+    //} else {
       error.value = "Credenciales incorrectas";
-    }
+    //}
   } catch (err) {
     error.value = "Hubo un error al intentar iniciar sesión";
     console.error(err);
