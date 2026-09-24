@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import InicioDeSesion from '../components/InicioDeSesion.vue';
 import Registrarse from '../components/Registrarse.vue';
 import Dashboard from '../components/Dashboard.vue';
@@ -10,7 +10,7 @@ import EnergiaInfo from '@/components/EnergiaInfo.vue';
 import AdministracionCuenta from '@/components/AdministracionCuenta.vue';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/', // Ruta principal (Login)
@@ -19,7 +19,7 @@ const router = createRouter({
     },
     {
       path: '/register', 
-      name: 'register',
+      name: 'register', 
       component: Registrarse,
     },
     {
