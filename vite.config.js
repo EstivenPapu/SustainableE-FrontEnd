@@ -10,6 +10,7 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
+  base: `/SustainableE-FrontEnd/`,
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
